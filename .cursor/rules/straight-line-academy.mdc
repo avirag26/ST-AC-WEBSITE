@@ -1,0 +1,52 @@
+---
+description: Straight Line Academy — workflow, architecture, and coding rules for all repos
+alwaysApply: true
+---
+
+# Straight Line Academy rules
+
+## Architecture
+
+- Six separate apps under the workspace root (not a monorepo package workspace):
+  - `ST-AC-BACKEND` — NestJS + Prisma + Postgres + Redis + S3
+  - `ST-AC-CEO` — Next.js CEO portal (port 3002)
+  - `ST-AC-HOME-TUTOR` — Next.js home tutor (port 3003)
+  - `ST-AC-OFFLINE-TUTOR` — Next.js offline tutor (port 3004)
+  - `ST-AC-PARENT` — Next.js parent (port 3001)
+  - `ST-AC-WEBSITE` — Next.js public site (port 3000)
+- Shared API base: `NEXT_PUBLIC_API_URL` → `http://localhost:4000/api`
+- Keep apps independent. Do not invent a shared npm package unless the team asks.
+
+## Build workflow (mandatory)
+
+1. Work **one feature at a time**. Do not build the whole product in one pass.
+2. Prefer **CEO-first** foundations (catalog, approvals) before tutor/parent deep features.
+3. After each feature: lint/typecheck, give manual test steps, **stop and wait** for user approval.
+4. Do not start the next feature until the user says to continue.
+5. Fix reported bugs before adding new features.
+6. Keep `TASKS.md` updated when finishing a feature (checkboxes + progress notes).
+
+## Auth rules
+
+- Tutors & CEO login with **phone + password**.
+- Parents login with **email** (CEO creates parent + student; one family email, no separate student login).
+- Tutors stay `PENDING` until CEO approves; pending tutors cannot sign in.
+- Use **access token** (Bearer) + **refresh token** (httpOnly cookie).
+- Frontends use **axios** with `withCredentials: true` and refresh-on-401.
+- Do not store refresh tokens in localStorage.
+
+## Product rules
+
+- Only CEO assigns classes/sessions to tutors.
+- Classes & subjects catalogs are CEO-managed; tutor signup loads them from API.
+- Offline attendance: unmarked = Absent for parent view.
+- Home tutor journeys: leave home → reach → class start → stop (+ report/PDF later).
+- Keep UI simple for parents/teachers: mobile-first, clear language, blue/white theme (`#2563EB`).
+
+## Code quality
+
+- Reuse existing UI patterns (`Card`, `PageHeader`, `Tabs`, `Alert`, `Button`, `TextField`).
+- No fake “success” API claims — if backend is missing, say so honestly.
+- Do not commit secrets; never print `.env` credentials in chat.
+- Prefer small, focused diffs. No drive-by refactors of unrelated apps.
+- TypeScript strictness: meaningful names, handle loading/empty/error states.
