@@ -4,7 +4,7 @@
 Use this file as the source of truth while building. Check off tasks as they land.
 
 **Last updated:** 2026-10-13  
-**Current focus:** Phase 2 â€” tutors see assigned sessions; attendance next
+**Current focus:** Journey tracking history in DB — QA next; then class report PDF
 
 ---
 
@@ -32,6 +32,8 @@ Use this file as the source of truth while building. Check off tasks as they lan
 | CEO offline batches (create, tutor, enroll) | Done |
 | CEO schedule online/offline sessions + assign teacher | Done |
 | Home / Offline tutor see assigned sessions (batches) | Done |
+| Offline tutor mark attendance | Done |
+| Parent classes + attendance calendar | Done |
 | Docs hub in `ST-AC-WEBSITE/docs` | Done |
 | Cursor rules (`.cursor/rules/straight-line-academy.mdc`) | Done |
 
@@ -39,9 +41,11 @@ Use this file as the source of truth while building. Check off tasks as they lan
 
 | Priority | Feature |
 |----------|---------|
-| Next | Offline tutor mark attendance |
-| Then | Parent classes / attendance view |
+| Home tutor journey leave → reach → start → stop | Done |
+| Live tracking (Redis ping + CEO page) | Done (QA) |
+| Next | Class report PDF on/after stop |
 | Then | Wire real welcome email (SMTP) |
+| Then | Parent fees / exams |
 
 ### Default local accounts (seed)
 
@@ -96,7 +100,8 @@ Use this file as the source of truth while building. Check off tasks as they lan
 - [x] `ParentProfile` / `Student`
 - [x] `Batch` / `BatchStudent` (offline)
 - [x] `Session` (online/offline schedule)
-- [ ] `Journey` / `ClassReport` / `Attendance`
+- [x] `Attendance` (offline session marks)
+- [ ] `Journey` / `ClassReport`
 - [ ] `Exam` / `ExamMark` / `Quiz`
 - [ ] `Fee` / `Payment` / `SalaryPayment` / `Resource` / `OtpToken`
 
@@ -117,11 +122,13 @@ Use this file as the source of truth while building. Check off tasks as they lan
 
 ### 3.3 Student & parent registration (CEO-driven)
 - [x] Register student + parent (API + CEO UI)
+- [x] Class + batch required on create (auto-enroll into batch)
 - [x] Default temporary passwords returned to CEO (`mustChangePassword`)
 - [ ] Real welcome email (SMTP) â€” stub logs only for now
 
 ### 3.4 Offline batches
 - [x] Create / list / update batches under ClassGrade
+- [x] Create batches from Catalog (under a class / optional first batch)
 - [x] Assign approved offline tutor
 - [x] Enroll / remove students
 
@@ -139,6 +146,7 @@ Use this file as the source of truth while building. Check off tasks as they lan
 
 ### Catalog (classes & subjects)
 - [x] List / create / edit / soft-delete classes
+- [x] Create / list batches under each class (Catalog UI)
 - [x] List / create / edit / soft-delete subjects
 
 ---
@@ -157,7 +165,16 @@ Use this file as the source of truth while building. Check off tasks as they lan
 ### 4.2 Assigned classes
 - [x] See CEO-assigned online sessions on dashboard
 
-### 4.3â€“4.6 Journey, exams, hours
+### 4.3 Journey
+- [x] Leave home → reach → start class → stop (API + Home Tutor UI)
+- [x] Optional GPS on each step (browser; continue if denied)
+- [x] Stop marks session COMPLETED + Upcoming/Completed tabs
+- [x] Live location pings (Redis) + CEO Live tracking page
+- [x] Journey GPS trail stored in DB + CEO Active / History views
+- [ ] Class report + PDF on/after stop
+- [ ] Hours calculation + filters
+
+### 4.4â€“4.6 Exams, hours extras
 - [ ] Not started
 
 ---
@@ -167,7 +184,7 @@ Use this file as the source of truth while building. Check off tasks as they lan
 - [x] Register / login / approval gate (API wired)
 - [x] Simple dashboard after login
 - [x] See assigned batches + students + sessions
-- [ ] Attendance marking
+- [x] Attendance marking (Present/Absent; unmarked = Absent for parents)
 - [ ] Exams / quizzes / richer dashboard
 
 ---
@@ -176,6 +193,8 @@ Use this file as the source of truth while building. Check off tasks as they lan
 
 - [x] Auth (email login; CEO-created account)
 - [x] Simple dashboard (linked students)
+- [x] Upcoming / completed classes
+- [x] Attendance calendar (green Present / red Absent; unmarked = Absent)
 - [ ] Classes / attendance / resources / exams / fees / quizzes
 
 ---
@@ -186,7 +205,7 @@ Use this file as the source of truth while building. Check off tasks as they lan
 - [x] Auth module (JWT access + refresh cookie)
 - [x] Role guards + approval gate for tutors
 - [x] Prisma schema (auth + catalog + tutor profile)
-- [ ] Redis used for live location / cache beyond scaffolding
+- [x] Redis used for live location pings (graceful if Redis down)
 - [ ] S3 uploads beyond scaffolding
 - [ ] OTP module (email)
 
@@ -198,7 +217,12 @@ Use this file as the source of truth while building. Check off tasks as they lan
 - [x] Parent email login (`POST /auth/login/email`)
 - [x] Batches (CEO offline batches CRUD + enroll)
 - [x] Sessions (CEO schedule online/offline + assign tutor)
-- [ ] Journey / Reports / Attendance / Exams / Quizzes / Fees / Salaries / Email
+- [x] Attendance (offline tutor mark roster)
+- [x] Parent classes + attendance calendar
+- [x] Journey (leave/reach/start/stop + optional coords)
+- [x] Live tracking (`POST …/journey/ping`, `GET /tracking/live`)
+- [x] Journey history in DB (`JourneyLocationEvent`, `GET /tracking/history`, `GET /tracking/:id`)
+- [ ] Reports / Exams / Quizzes / Fees / Salaries / Email
 
 ---
 
@@ -227,13 +251,13 @@ Use this file as the source of truth while building. Check off tasks as they lan
 - [x] Offline tutor: see classes â†’ batches â†’ students â†’ sessions
 
 ### Phase 3 â€” Attendance & parent classes view
-- [ ] Offline tutor mark attendance
-- [ ] Parent: upcoming/completed classes + notes/time
-- [ ] Parent: attendance calendar green/red
+- [x] Offline tutor mark attendance (session → COMPLETED; Upcoming / Completed tabs)
+- [x] Parent: upcoming/completed classes + notes/time
+- [x] Parent: attendance calendar green/red
 
 ### Phase 4 â€” Home tutor journey
-- [ ] Leave / reach / start / stop + live location
-- [ ] CEO live tracking dashboard
+- [x] Leave / reach / start / stop (+ optional GPS snapshot)
+- [x] Live location pings (Redis) + CEO live tracking dashboard
 - [ ] Report + PDF on stop (or write later)
 - [ ] Hours calculation + home tutor dashboard filters
 
@@ -272,7 +296,7 @@ Use this file as the source of truth while building. Check off tasks as they lan
 8. [ ] Exams  
 9. [ ] Fees  
 10. [ ] Salaries  
-11. [ ] Live tracking  
+11. [x] Live tracking  
 12. [ ] Forgot password  
 
 ### Home Tutor
@@ -285,12 +309,15 @@ Use this file as the source of truth while building. Check off tasks as they lan
 1. [x] Register / Login  
 2. [x] Basic dashboard  
 3. [x] My batches + sessions  
-4. [ ] Attendance / exams / quizzes  
+4. [x] Mark attendance  
+5. [ ] Exams / quizzes  
 
 ### Parent
 1. [x] Login (email)  
 2. [x] Basic dashboard (students list)  
-3. [ ] Classes / attendance / exams / fees / quizzes  
+3. [x] Classes (upcoming / completed)  
+4. [x] Attendance calendar  
+5. [ ] Exams / fees / quizzes  
 
 ### Website
 - Mostly not started (docs hub + scaffold)
@@ -367,7 +394,7 @@ npm run dev    # http://localhost:3001
 
 ## 13. Immediate next step
 
-**Offline tutor mark attendance** (unmarked = Absent for parent view).
+**Class report PDF** â€” after live tracking QA.
 
 When coding, say what feature you are taking, update checkboxes here when done, and stop for manual QA.
 
