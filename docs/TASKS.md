@@ -4,7 +4,7 @@
 Use this file as the source of truth while building. Check off tasks as they land.
 
 **Last updated:** 2026-10-13  
-**Current focus:** Journey tracking history in DB — QA next; then class report PDF
+**Current focus:** Hours + filters shipped — QA next; Phase 4 journey stack done
 
 ---
 
@@ -43,7 +43,9 @@ Use this file as the source of truth while building. Check off tasks as they lan
 |----------|---------|
 | Home tutor journey leave → reach → start → stop | Done |
 | Live tracking (Redis ping + CEO page) | Done (QA) |
-| Next | Class report PDF on/after stop |
+| Class report + PDF on/after stop | Done |
+| Hours calculation + home tutor filters | Done (QA) |
+| Next | Phase 5 exams / quizzes (or CEO report view polish) |
 | Then | Wire real welcome email (SMTP) |
 | Then | Parent fees / exams |
 
@@ -171,10 +173,10 @@ Use this file as the source of truth while building. Check off tasks as they lan
 - [x] Stop marks session COMPLETED + Upcoming/Completed tabs
 - [x] Live location pings (Redis) + CEO Live tracking page
 - [x] Journey GPS trail stored in DB + CEO Active / History views
-- [ ] Class report + PDF on/after stop
-- [ ] Hours calculation + filters
+- [x] Class report + PDF on/after stop (or later)
+- [x] Hours calculation + date/student filters on home tutor dashboard
 
-### 4.4â€“4.6 Exams, hours extras
+### 4.4â€“4.6 Exams extras
 - [ ] Not started
 
 ---
@@ -222,7 +224,8 @@ Use this file as the source of truth while building. Check off tasks as they lan
 - [x] Journey (leave/reach/start/stop + optional coords)
 - [x] Live tracking (`POST …/journey/ping`, `GET /tracking/live`)
 - [x] Journey history in DB (`JourneyLocationEvent`, `GET /tracking/history`, `GET /tracking/:id`)
-- [ ] Reports / Exams / Quizzes / Fees / Salaries / Email
+- [x] Class reports (`PUT/GET …/report`, PDF download)
+- [ ] Exams / Quizzes / Fees / Salaries / Email
 
 ---
 
@@ -258,8 +261,8 @@ Use this file as the source of truth while building. Check off tasks as they lan
 ### Phase 4 â€” Home tutor journey
 - [x] Leave / reach / start / stop (+ optional GPS snapshot)
 - [x] Live location pings (Redis) + CEO live tracking dashboard
-- [ ] Report + PDF on stop (or write later)
-- [ ] Hours calculation + home tutor dashboard filters
+- [x] Report + PDF on stop (or write later)
+- [x] Hours calculation + home tutor dashboard filters
 
 ### Phase 5 â€” Exams & quizzes
 - [ ] CEO create exam + subjects + assign teacher + history/timetable
@@ -394,7 +397,7 @@ npm run dev    # http://localhost:3001
 
 ## 13. Immediate next step
 
-**Class report PDF** â€” after live tracking QA.
+**Phase 5 — Exams & quizzes** â€” after hours QA.
 
 When coding, say what feature you are taking, update checkboxes here when done, and stop for manual QA.
 
