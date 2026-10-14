@@ -3,8 +3,22 @@
 
 Use this file as the source of truth while building. Check off tasks as they land.
 
-**Last updated:** 2026-10-13  
-**Current focus:** Hours + filters shipped — QA next; Phase 4 journey stack done
+**Last updated:** 2026-10-14
+**Current focus:** Interface modernization and implementation audit in progress. CEO overview now uses existing API data; full workflow QA and remaining product phases are still pending.
+
+### Implementation audit — 2026-10-14
+
+- [x] CEO overview: registered students, pending tutor approvals, active batches, upcoming sessions, and next scheduled lessons using existing APIs.
+- [x] CEO navigation: persistent desktop sidebar, current-page indication, workspace header, and skip link.
+- [x] Parent and tutor portals: consistent base colors, wider responsive dashboard layouts, sticky headers, and reduced-motion support.
+- [x] Removed sign-in claims advertising unfinished exams, quizzes, and fees.
+- [x] Corrected home-tutor journey effect dependencies for live location sharing.
+- [ ] Browser visual review at mobile and desktop widths.
+- [ ] Full functional acceptance audit of previously completed features.
+- [ ] Remaining interface redesign across all screens and public website.
+- [ ] Remaining exams, quizzes, finance, resources, email, OTP, notifications, and audit-log implementation.
+
+These changes are an initial implementation pass, not completion of the overall redesign. Existing checkmarks record implementation history; they do not certify end-to-end acceptance testing. See AUDIT.md for evidence and limitations.
 
 ---
 
@@ -103,7 +117,7 @@ Use this file as the source of truth while building. Check off tasks as they lan
 - [x] `Batch` / `BatchStudent` (offline)
 - [x] `Session` (online/offline schedule)
 - [x] `Attendance` (offline session marks)
-- [ ] `Journey` / `ClassReport`
+- [x] `SessionJourney` / `ClassReport` (present in Prisma schema; full acceptance QA pending)
 - [ ] `Exam` / `ExamMark` / `Quiz`
 - [ ] `Fee` / `Payment` / `SalaryPayment` / `Resource` / `OtpToken`
 
@@ -197,7 +211,7 @@ Use this file as the source of truth while building. Check off tasks as they lan
 - [x] Simple dashboard (linked students)
 - [x] Upcoming / completed classes
 - [x] Attendance calendar (green Present / red Absent; unmarked = Absent)
-- [ ] Classes / attendance / resources / exams / fees / quizzes
+- [ ] Resources / exams / fees / quizzes (classes and attendance are implemented above)
 
 ---
 
@@ -306,7 +320,8 @@ Use this file as the source of truth while building. Check off tasks as they lan
 1. [x] Register / Login  
 2. [x] Basic dashboard  
 3. [x] My assigned sessions  
-4. [ ] Journey / reports / exams / quizzes / profile  
+4. [x] Journey / reports (implementation present; full acceptance QA pending)
+5. [ ] Exams / quizzes / profile
 
 ### Offline Tutor
 1. [x] Register / Login  
